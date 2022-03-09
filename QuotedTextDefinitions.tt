@@ -1,7 +1,7 @@
 <#@ template debug="true" hostspecific="true" language="C#" #>
 <#
-	this.DataFilename = @"Patterns\French\French-QuotedText.yaml";
-	this.Language = "French";
+	this.DataFilename = @"Patterns\Turkish\Turkish-QuotedText.yaml";
+	this.Language = "Turkish";
 	this.ClassName = "QuotedTextDefinitions";
 #>
 <#@ include file="..\CommonDefinitions.ttinclude"#>

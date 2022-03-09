@@ -5,8 +5,8 @@
 //     the code is regenerated.
 //
 //     Generation parameters:
-//     - DataFilename: Patterns\French\French-QuotedText.yaml
-//     - Language: French
+//     - DataFilename: Patterns\Turkish\Turkish-QuotedText.yaml
+//     - Language: Turkish
 //     - ClassName: QuotedTextDefinitions
 // </auto-generated>
 //
@@ -14,14 +14,14 @@
 // Licensed under the MIT License.
 // ------------------------------------------------------------------------------
 
-namespace Microsoft.Recognizers.Definitions.French
+namespace Microsoft.Recognizers.Definitions.Turkish
 {
     using System;
     using System.Collections.Generic;
 
     public static class QuotedTextDefinitions
     {
-      public const string LangMarker = @"Fr";
+      public const string LangMarker = @"Tur";
       public const string QuotedTextRegex1 = @"(“([^“”]+)”)";
       public const string QuotedTextRegex2 = @"(‘([^‘’]+)’)";
       public const string QuotedTextRegex3 = @"(""([^""]+)"")";
@@ -30,6 +30,6 @@ namespace Microsoft.Recognizers.Definitions.French
       public const string QuotedTextRegex6 = @"(«([^«»]+)»)";
       public const string QuotedTextRegex7 = @"(‹([^‹›]+)›)";
       public const string QuotedTextRegex8 = @"(123456)";
-      public const string QuotedTextRegex9 = @"(123456)---";
+      public const string QuotedTextRegex9 = @"(123456)";
     }
 }

@@ -5,8 +5,8 @@
 //     the code is regenerated.
 //
 //     Generation parameters:
-//     - DataFilename: Patterns\English\English-TimeZone.yaml
-//     - Language: English
+//     - DataFilename: Patterns\Turkish\Turkish-TimeZone.yaml
+//     - Language: Turkish
 //     - ClassName: TimeZoneDefinitions
 // </auto-generated>
 //
@@ -14,7 +14,7 @@
 // Licensed under the MIT License.
 // ------------------------------------------------------------------------------
 
-namespace Microsoft.Recognizers.Definitions.English
+namespace Microsoft.Recognizers.Definitions.Turkish
 {
     using System;
     using System.Collections.Generic;

@@ -5,8 +5,8 @@
 //     the code is regenerated.
 //
 //     Generation parameters:
-//     - DataFilename: Patterns\English\English-PhoneNumbers.yaml
-//     - Language: English
+//     - DataFilename: Patterns\Portuguese\Portuguese-PhoneNumbers.yaml
+//     - Language: Portuguese
 //     - ClassName: PhoneNumbersDefinitions
 // </auto-generated>
 //
@@ -14,7 +14,7 @@
 // Licensed under the MIT License.
 // ------------------------------------------------------------------------------
 
-namespace Microsoft.Recognizers.Definitions.English
+namespace Microsoft.Recognizers.Definitions.Portuguese
 {
     using System;
     using System.Collections.Generic;
@@ -22,6 +22,6 @@ namespace Microsoft.Recognizers.Definitions.English
     public static class PhoneNumbersDefinitions
     {
       public const string NumberReplaceToken = @"@builtin.phonenumber";
-      public const string FalsePositivePrefixRegex = @"(account|card)(\s+(#|number))?(\s+is)?:?\s*$";
+      public const string FalsePositivePrefixRegex = @"conta(\s+(número|bancária(\s+número)?))?(\s+é)?:?\s*$";
     }
 }
