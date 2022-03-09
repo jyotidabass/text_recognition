@@ -4,16 +4,18 @@
 using System.Collections.Immutable;
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.Spanish;
+using Microsoft.Recognizers.Definitions.Turkish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Turkish
 {
-    public class WeightExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
+    public class WeightExtractorConfiguration : TurkishNumberWithUnitExtractorConfiguration
     {
         public static readonly ImmutableDictionary<string, string> WeightSuffixList = NumbersWithUnitDefinitions.WeightSuffixList.ToImmutableDictionary();
 
+        private static readonly ImmutableList<string> AmbiguousValues = NumbersWithUnitDefinitions.AmbiguousWeightUnitList.ToImmutableList();
+
         public WeightExtractorConfiguration()
-               : this(new CultureInfo(Culture.Spanish))
+               : this(new CultureInfo(Culture.Turkish))
         {
         }
 
@@ -26,7 +28,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 
         public override ImmutableDictionary<string, string> PrefixList => null;
 
-        public override ImmutableList<string> AmbiguousUnitList => null;
+        public override ImmutableList<string> AmbiguousUnitList => AmbiguousValues;
 
         public override string ExtractType => Constants.SYS_UNIT_WEIGHT;
     }

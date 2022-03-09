@@ -4,11 +4,11 @@
 using System.Collections.Immutable;
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.Spanish;
+using Microsoft.Recognizers.Definitions.Swedish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Swedish
 {
-    public class AngleExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
+    public class AngleExtractorConfiguration : SwedishNumberWithUnitExtractorConfiguration
     {
         public static readonly ImmutableDictionary<string, string> AngleSuffixList =
             NumbersWithUnitDefinitions.AngleSuffixList.ToImmutableDictionary();
@@ -17,7 +17,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
             NumbersWithUnitDefinitions.AmbiguousAngleUnitList.ToImmutableList();
 
         public AngleExtractorConfiguration()
-               : this(new CultureInfo(Culture.Spanish))
+               : this(new CultureInfo(Culture.Swedish))
         {
         }
 

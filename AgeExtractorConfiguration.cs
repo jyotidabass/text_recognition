@@ -4,23 +4,21 @@
 using System.Collections.Immutable;
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.Spanish;
+using Microsoft.Recognizers.Definitions.Turkish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Turkish
 {
-    public class AgeExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
+    public class AgeExtractorConfiguration : TurkishNumberWithUnitExtractorConfiguration
     {
         public static readonly ImmutableDictionary<string, string> AgeSuffixList = NumbersWithUnitDefinitions.AgeSuffixList.ToImmutableDictionary();
 
-        public static readonly ImmutableList<string> AmbiguousAgeUnitList = NumbersWithUnitDefinitions.AmbiguousAgeUnitList.ToImmutableList();
-
         public AgeExtractorConfiguration()
-               : this(new CultureInfo(Culture.Spanish))
+            : this(new CultureInfo(Culture.Turkish))
         {
         }
 
         public AgeExtractorConfiguration(CultureInfo ci)
-               : base(ci)
+            : base(ci)
         {
         }
 
@@ -28,7 +26,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 
         public override ImmutableDictionary<string, string> PrefixList => null;
 
-        public override ImmutableList<string> AmbiguousUnitList => AmbiguousAgeUnitList;
+        public override ImmutableList<string> AmbiguousUnitList => null;
 
         public override string ExtractType => Constants.SYS_UNIT_AGE;
     }

@@ -3,12 +3,12 @@
 
 using System.Globalization;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Portuguese
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Turkish
 {
-    public class WeightParserConfiguration : PortugueseNumberWithUnitParserConfiguration
+    public class WeightParserConfiguration : TurkishNumberWithUnitParserConfiguration
     {
         public WeightParserConfiguration()
-               : this(new CultureInfo(Culture.Portuguese))
+               : this(new CultureInfo(Culture.Turkish))
         {
         }
 

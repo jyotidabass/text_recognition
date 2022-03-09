@@ -4,18 +4,18 @@
 using System.Collections.Immutable;
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.Spanish;
+using Microsoft.Recognizers.Definitions.Turkish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Turkish
 {
-    public class LengthExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
+    public class LengthExtractorConfiguration : TurkishNumberWithUnitExtractorConfiguration
     {
         public static readonly ImmutableDictionary<string, string> LengthSuffixList = NumbersWithUnitDefinitions.LengthSuffixList.ToImmutableDictionary();
 
-        public static readonly ImmutableList<string> AmbiguousValues = NumbersWithUnitDefinitions.AmbiguousLengthUnitList.ToImmutableList();
+        private static readonly ImmutableList<string> AmbiguousValues = NumbersWithUnitDefinitions.AmbiguousLengthUnitList.ToImmutableList();
 
         public LengthExtractorConfiguration()
-               : base(new CultureInfo(Culture.Spanish))
+               : base(new CultureInfo(Culture.Turkish))
         {
         }
 

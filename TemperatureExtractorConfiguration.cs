@@ -6,27 +6,28 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 using Microsoft.Recognizers.Definitions;
-using Microsoft.Recognizers.Definitions.Spanish;
+using Microsoft.Recognizers.Definitions.Turkish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Turkish
 {
-    public class TemperatureExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
+    public class TemperatureExtractorConfiguration : TurkishNumberWithUnitExtractorConfiguration
     {
         public static readonly ImmutableDictionary<string, string> TemperatureSuffixList =
             NumbersWithUnitDefinitions.TemperatureSuffixList.ToImmutableDictionary();
 
-        private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
+        private static readonly ImmutableList<string> AmbiguousValues =
+            NumbersWithUnitDefinitions.AmbiguousTemperatureUnitList.ToImmutableList();
 
         private static readonly Regex AmbiguousUnitMultiplierRegex =
-            new Regex(BaseUnits.AmbiguousUnitNumberMultiplierRegex, RegexFlags);
+            new Regex(BaseUnits.AmbiguousUnitNumberMultiplierRegex, RegexOptions.None);
 
         public TemperatureExtractorConfiguration()
-            : this(new CultureInfo(Culture.Spanish))
+               : this(new CultureInfo(Culture.Turkish))
         {
         }
 
         public TemperatureExtractorConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
         }
 
@@ -34,7 +35,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 
         public override ImmutableDictionary<string, string> PrefixList => null;
 
-        public override ImmutableList<string> AmbiguousUnitList => null;
+        public override ImmutableList<string> AmbiguousUnitList => AmbiguousValues;
 
         public override string ExtractType => Constants.SYS_UNIT_TEMPERATURE;
 

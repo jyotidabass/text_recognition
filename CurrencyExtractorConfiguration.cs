@@ -7,11 +7,11 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 
-using Microsoft.Recognizers.Definitions.Spanish;
+using Microsoft.Recognizers.Definitions.Turkish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Turkish
 {
-    public class CurrencyExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
+    public class CurrencyExtractorConfiguration : TurkishNumberWithUnitExtractorConfiguration
     {
         public static readonly ImmutableDictionary<string, string> CurrencySuffixList = NumbersWithUnitDefinitions.CurrencySuffixList.ToImmutableDictionary();
 
@@ -35,10 +35,12 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 
         public static readonly ImmutableDictionary<string, string> CurrencyPrefixList = CurrencyPrefixDict.ToImmutableDictionary();
 
+        public static readonly ImmutableDictionary<string, string> FractionalUnitNameToCodeMap = NumbersWithUnitDefinitions.FractionalUnitNameToCodeMap.ToImmutableDictionary();
+
         private static readonly ImmutableList<string> AmbiguousValues = NumbersWithUnitDefinitions.AmbiguousCurrencyUnitList.ToImmutableList();
 
         public CurrencyExtractorConfiguration()
-               : this(new CultureInfo(Culture.Spanish))
+               : this(new CultureInfo(Culture.Turkish))
         {
         }
 

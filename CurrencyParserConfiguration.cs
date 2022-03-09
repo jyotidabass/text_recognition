@@ -3,14 +3,14 @@
 
 using System.Collections.Immutable;
 using System.Globalization;
-using Microsoft.Recognizers.Definitions.Spanish;
+using Microsoft.Recognizers.Definitions.Turkish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Turkish
 {
-    public class CurrencyParserConfiguration : SpanishNumberWithUnitParserConfiguration
+    public class CurrencyParserConfiguration : TurkishNumberWithUnitParserConfiguration
     {
         public CurrencyParserConfiguration()
-               : this(new CultureInfo(Culture.Spanish))
+               : this(new CultureInfo(Culture.Turkish))
         {
         }
 
