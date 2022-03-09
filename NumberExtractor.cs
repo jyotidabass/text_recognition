@@ -4,48 +4,40 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using Microsoft.Recognizers.Definitions.Hindi;
 
-using Microsoft.Recognizers.Definitions.English;
-
-namespace Microsoft.Recognizers.Text.Number.English
+namespace Microsoft.Recognizers.Text.Number.Hindi
 {
-    public class NumberExtractor : CachedNumberExtractor
+    public class NumberExtractor : BaseNumberExtractor
     {
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
         private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor> Instances =
             new ConcurrentDictionary<(NumberMode, NumberOptions), NumberExtractor>();
 
-        private readonly string keyPrefix;
-
-        private NumberExtractor(BaseNumberOptionsConfiguration config)
-            : base(config.Options)
+        private NumberExtractor(NumberMode mode, NumberOptions options)
         {
-
-            keyPrefix = string.Intern(ExtractType + "_" + config.Options + "_" + config.Mode + "_" + config.Culture);
-
             NegativeNumberTermsRegex = new Regex(NumbersDefinitions.NegativeNumberTermsRegex + '$', RegexFlags);
 
             AmbiguousFractionConnectorsRegex = new Regex(NumbersDefinitions.AmbiguousFractionConnectorsRegex, RegexFlags);
 
             RelativeReferenceRegex = new Regex(NumbersDefinitions.RelativeOrdinalRegex, RegexFlags);
 
-            NumberParser = new BaseNumberParser(new EnglishNumberParserConfiguration(config));
+            Options = options;
 
             var builder = ImmutableDictionary.CreateBuilder<Regex, TypeTag>();
 
             // Add Cardinal
             CardinalExtractor cardExtract = null;
-            switch (config.Mode)
+            switch (mode)
             {
                 case NumberMode.PureNumber:
-                    var purNumConfig = new BaseNumberOptionsConfiguration(config.Culture, config.Options, config.Mode,
-                                                                          NumbersDefinitions.PlaceHolderPureNumber);
-                    cardExtract = CardinalExtractor.GetInstance(purNumConfig);
+                    cardExtract = CardinalExtractor.GetInstance(NumbersDefinitions.PlaceHolderPureNumber);
                     break;
                 case NumberMode.Currency:
-                    builder.Add(BaseNumberExtractor.CurrencyRegex,
-                                RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX));
+                    builder.Add(
+                        BaseNumberExtractor.CurrencyRegex,
+                        RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX));
                     break;
                 case NumberMode.Unit:
                     break;
@@ -55,13 +47,13 @@ namespace Microsoft.Recognizers.Text.Number.English
 
             if (cardExtract == null)
             {
-                cardExtract = CardinalExtractor.GetInstance(config);
+                cardExtract = CardinalExtractor.GetInstance();
             }
 
             builder.AddRange(cardExtract.Regexes);
 
             // Add Fraction
-            var fracExtract = FractionExtractor.GetInstance(config);
+            var fracExtract = FractionExtractor.GetInstance(Options);
             builder.AddRange(fracExtract.Regexes);
 
             Regexes = builder.ToImmutable();
@@ -69,7 +61,7 @@ namespace Microsoft.Recognizers.Text.Number.English
             var ambiguityBuilder = ImmutableDictionary.CreateBuilder<Regex, Regex>();
 
             // Do not filter the ambiguous number cases like 'that one' in NumberWithUnit, otherwise they can't be resolved.
-            if (config.Mode != NumberMode.Unit)
+            if (mode != NumberMode.Unit)
             {
                 foreach (var item in NumbersDefinitions.AmbiguityFiltersDict)
                 {
@@ -80,7 +72,7 @@ namespace Microsoft.Recognizers.Text.Number.English
             AmbiguityFiltersDict = ambiguityBuilder.ToImmutable();
         }
 
-        public override BaseNumberParser NumberParser { get; }
+        public sealed override NumberOptions Options { get; }
 
         internal sealed override ImmutableDictionary<Regex, TypeTag> Regexes { get; }
 
@@ -94,23 +86,16 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected sealed override Regex RelativeReferenceRegex { get; }
 
-        public static NumberExtractor GetInstance(BaseNumberOptionsConfiguration config)
+        public static NumberExtractor GetInstance(NumberMode mode = NumberMode.Default, NumberOptions options = NumberOptions.None)
         {
-            var extractorKey = (config.Mode, config.Options);
-
-            if (!Instances.ContainsKey(extractorKey))
+            var cacheKey = (mode, options);
+            if (!Instances.ContainsKey(cacheKey))
             {
-                var instance = new NumberExtractor(config);
-                Instances.TryAdd(extractorKey, instance);
+                var instance = new NumberExtractor(mode, options);
+                Instances.TryAdd(cacheKey, instance);
             }
 
-            return Instances[extractorKey];
+            return Instances[cacheKey];
         }
-
-        protected override object GenKey(string input)
-        {
-            return (keyPrefix, input);
-        }
-
     }
 }

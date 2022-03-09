@@ -4,10 +4,9 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using Microsoft.Recognizers.Definitions.Hindi;
 
-using Microsoft.Recognizers.Definitions.English;
-
-namespace Microsoft.Recognizers.Text.Number.English
+namespace Microsoft.Recognizers.Text.Number.Hindi
 {
     public class NumberRangeExtractor : BaseNumberRangeExtractor
     {
@@ -15,12 +14,11 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         public NumberRangeExtractor(INumberOptionsConfiguration config)
             : base(
-                   NumberExtractor.GetInstance(new BaseNumberOptionsConfiguration(config.Culture, config.Options)),
-                   OrdinalExtractor.GetInstance(new BaseNumberOptionsConfiguration(config.Culture, config.Options)),
-                   new BaseNumberParser(new EnglishNumberParserConfiguration(config)),
-                   config)
+                  NumberExtractor.GetInstance(),
+                  OrdinalExtractor.GetInstance(),
+                  new BaseIndianNumberParser(new HindiNumberParserConfiguration(config)),
+                  config)
         {
-
             var regexes = new Dictionary<Regex, string>()
             {
                 {
@@ -45,7 +43,7 @@ namespace Microsoft.Recognizers.Text.Number.English
                 },
                 {
                     // more/greater/higher than ...
-                    new Regex(NumbersDefinitions.OneNumberRangeMoreRegex1LB, RegexFlags),
+                    new Regex(NumbersDefinitions.OneNumberRangeMoreRegex1, RegexFlags),
                     NumberRangeConstants.MORE
                 },
                 {
@@ -55,7 +53,7 @@ namespace Microsoft.Recognizers.Text.Number.English
                 },
                 {
                     // less/smaller/lower than ...
-                    new Regex(NumbersDefinitions.OneNumberRangeLessRegex1LB, RegexFlags),
+                    new Regex(NumbersDefinitions.OneNumberRangeLessRegex1, RegexFlags),
                     NumberRangeConstants.LESS
                 },
                 {
@@ -76,6 +74,16 @@ namespace Microsoft.Recognizers.Text.Number.English
                 {
                     // equal to 30 or less, smaller than 30 or equal ...
                     new Regex(NumbersDefinitions.OneNumberRangeLessSeparateRegex, RegexFlags),
+                    NumberRangeConstants.LESS
+                },
+                {
+                    // 30 and/or greater/higher
+                    new Regex(NumbersDefinitions.OneNumberRangeMoreRegex0, RegexFlags),
+                    NumberRangeConstants.MORE
+                },
+                {
+                    // less/smaller/lower than ...
+                    new Regex(NumbersDefinitions.OneNumberRangeLessRegex0, RegexFlags),
                     NumberRangeConstants.LESS
                 },
             };

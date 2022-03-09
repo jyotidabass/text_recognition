@@ -5,22 +5,20 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using Microsoft.Recognizers.Definitions.Hindi;
 
-using Microsoft.Recognizers.Definitions.French;
-
-namespace Microsoft.Recognizers.Text.Number.French
+namespace Microsoft.Recognizers.Text.Number.Hindi
 {
     public class FractionExtractor : BaseNumberExtractor
     {
-
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
-        private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), FractionExtractor> Instances =
-            new ConcurrentDictionary<(NumberMode, NumberOptions), FractionExtractor>();
+        private static readonly ConcurrentDictionary<(NumberOptions, string), FractionExtractor> Instances =
+            new ConcurrentDictionary<(NumberOptions, string), FractionExtractor>();
 
-        private FractionExtractor(BaseNumberOptionsConfiguration config)
-            : base(config.Options)
+        private FractionExtractor(NumberOptions options)
         {
+            Options = options;
 
             var regexes = new Dictionary<Regex, TypeTag>
             {
@@ -34,40 +32,53 @@ namespace Microsoft.Recognizers.Text.Number.French
                 },
                 {
                     new Regex(NumbersDefinitions.FractionNounRegex, RegexFlags),
-                    RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.FRENCH)
+                    RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.HINDI)
                 },
                 {
                     new Regex(NumbersDefinitions.FractionNounWithArticleRegex, RegexFlags),
-                    RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.FRENCH)
+                    RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.HINDI)
+                },
+                {
+                    new Regex(NumbersDefinitions.NegativeCompoundNumberOrdinals, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.HINDI)
                 },
             };
 
-            // Not add FractionPrepositionRegex when the mode is Unit to avoid wrong recognize cases like "$1000 over 3"
-            if (config.Mode != NumberMode.Unit)
+            if ((Options & NumberOptions.PercentageMode) != 0)
             {
                 regexes.Add(
-                    new Regex(NumbersDefinitions.FractionPrepositionRegex, RegexFlags),
-                    RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.FRENCH));
+                    new Regex(NumbersDefinitions.FractionPrepositionWithinPercentModeRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.HINDI));
+            }
+            else
+            {
+                regexes.Add(
+                    new Regex(NumbersDefinitions.FractionRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.HINDI));
+                regexes.Add(
+                   new Regex(NumbersDefinitions.FractionPrepositionInverseRegex, RegexFlags),
+                   RegexTagGenerator.GenerateRegexTag(Constants.FRACTION_PREFIX, Constants.HINDI));
             }
 
             Regexes = regexes.ToImmutableDictionary();
         }
 
+        public sealed override NumberOptions Options { get; }
+
         internal sealed override ImmutableDictionary<Regex, TypeTag> Regexes { get; }
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_FRACTION; // "Fraction";
 
-        public static FractionExtractor GetInstance(BaseNumberOptionsConfiguration config)
+        public static FractionExtractor GetInstance(NumberOptions options = NumberOptions.None, string placeholder = "")
         {
-            var extractorKey = (config.Mode, config.Options);
-
-            if (!Instances.ContainsKey(extractorKey))
+            var cacheKey = (options, placeholder);
+            if (!Instances.ContainsKey(cacheKey))
             {
-                var instance = new FractionExtractor(config);
-                Instances.TryAdd(extractorKey, instance);
+                var instance = new FractionExtractor(options);
+                Instances.TryAdd(cacheKey, instance);
             }
 
-            return Instances[extractorKey];
+            return Instances[cacheKey];
         }
     }
 }

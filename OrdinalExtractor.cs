@@ -5,26 +5,20 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using Microsoft.Recognizers.Definitions.Hindi;
 
-using Microsoft.Recognizers.Definitions.English;
-
-namespace Microsoft.Recognizers.Text.Number.English
+namespace Microsoft.Recognizers.Text.Number.Hindi
 {
-    public class OrdinalExtractor : CachedNumberExtractor
+    public class OrdinalExtractor : BaseNumberExtractor
     {
-
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
         private static readonly ConcurrentDictionary<string, OrdinalExtractor> Instances =
             new ConcurrentDictionary<string, OrdinalExtractor>();
 
-        private readonly string keyPrefix;
-
-        private OrdinalExtractor(BaseNumberOptionsConfiguration config)
-            : base(config.Options)
+        private OrdinalExtractor(NumberOptions options)
+            : base(options)
         {
-
-            keyPrefix = string.Intern(ExtractType + "_" + config.Options.ToString() + "_" + config.Culture);
 
             AmbiguousFractionConnectorsRegex = new Regex(NumbersDefinitions.AmbiguousFractionConnectorsRegex, RegexFlags);
 
@@ -33,20 +27,28 @@ namespace Microsoft.Recognizers.Text.Number.English
             var regexes = new Dictionary<Regex, TypeTag>
             {
                 {
+                    new Regex(NumbersDefinitions.RelativeOrdinalRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.HINDI)
+                },
+                {
+                    new Regex(NumbersDefinitions.HinglishOrdinalRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.HINDI)
+                },
+                {
+                    new Regex(NumbersDefinitions.CompoundHindiOrdinalRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.HINDI)
+                },
+                {
+                    new Regex(NumbersDefinitions.CompoundNumberOrdinals, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.HINDI)
+                },
+                {
+                    new Regex(NumbersDefinitions.CompoundEnglishOrdinalRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.HINDI)
+                },
+                {
                     new Regex(NumbersDefinitions.OrdinalSuffixRegex, RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.NUMBER_SUFFIX)
-                },
-                {
-                    new Regex(NumbersDefinitions.OrdinalNumericRegex, RegexFlags),
-                    RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.NUMBER_SUFFIX)
-                },
-                {
-                    new Regex(NumbersDefinitions.OrdinalEnglishRegex, RegexFlags),
-                    RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.ENGLISH)
-                },
-                {
-                    new Regex(NumbersDefinitions.OrdinalRoundNumberRegex, RegexFlags),
-                    RegexTagGenerator.GenerateRegexTag(Constants.ORDINAL_PREFIX, Constants.ENGLISH)
                 },
             };
 
@@ -61,23 +63,16 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected sealed override Regex RelativeReferenceRegex { get; }
 
-        public static OrdinalExtractor GetInstance(BaseNumberOptionsConfiguration config)
+        public static OrdinalExtractor GetInstance(NumberOptions options = NumberOptions.None)
         {
-            var extractorKey = config.Options.ToString();
-
-            if (!Instances.ContainsKey(extractorKey))
+            var cacheKey = options.ToString();
+            if (!Instances.ContainsKey(cacheKey))
             {
-                var instance = new OrdinalExtractor(config);
-                Instances.TryAdd(extractorKey, instance);
+                var instance = new OrdinalExtractor(options);
+                Instances.TryAdd(cacheKey, instance);
             }
 
-            return Instances[extractorKey];
+            return Instances[cacheKey];
         }
-
-        protected override object GenKey(string input)
-        {
-            return (keyPrefix, input);
-        }
-
     }
 }

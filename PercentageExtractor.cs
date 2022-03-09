@@ -4,17 +4,16 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
+using Microsoft.Recognizers.Definitions.Hindi;
 
-using Microsoft.Recognizers.Definitions.English;
-
-namespace Microsoft.Recognizers.Text.Number.English
+namespace Microsoft.Recognizers.Text.Number.Hindi
 {
     public sealed class PercentageExtractor : BasePercentageExtractor
     {
-        public PercentageExtractor(BaseNumberOptionsConfiguration config)
-            : base(NumberExtractor.GetInstance(config))
+        public PercentageExtractor(NumberOptions options = NumberOptions.None)
+            : base(NumberExtractor.GetInstance(options: options))
         {
-            Options = config.Options;
+            Options = options;
             Regexes = InitRegexes();
         }
 
@@ -22,7 +21,7 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected override ImmutableHashSet<Regex> InitRegexes()
         {
-            HashSet<string> regexStrings = new HashSet<string>
+            HashSet<string> regexStrs = new HashSet<string>
             {
                 NumbersDefinitions.NumberWithSuffixPercentage,
                 NumbersDefinitions.NumberWithPrefixPercentage,
@@ -30,11 +29,11 @@ namespace Microsoft.Recognizers.Text.Number.English
 
             if ((Options & NumberOptions.PercentageMode) != 0)
             {
-                regexStrings.Add(NumbersDefinitions.FractionNumberWithSuffixPercentage);
-                regexStrings.Add(NumbersDefinitions.NumberWithPrepositionPercentage);
+                regexStrs.Add(NumbersDefinitions.FractionNumberWithSuffixPercentage);
+                regexStrs.Add(NumbersDefinitions.NumberWithPrepositionPercentage);
             }
 
-            return BuildRegexes(regexStrings);
+            return BuildRegexes(regexStrs);
         }
     }
 }

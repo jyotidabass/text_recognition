@@ -3,10 +3,9 @@
 
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
+using Microsoft.Recognizers.Definitions.Hindi;
 
-using Microsoft.Recognizers.Definitions.English;
-
-namespace Microsoft.Recognizers.Text.Number.English
+namespace Microsoft.Recognizers.Text.Number.Hindi
 {
     internal class MergedNumberExtractor : BaseMergedNumberExtractor
     {
@@ -15,9 +14,9 @@ namespace Microsoft.Recognizers.Text.Number.English
         private static readonly ConcurrentDictionary<(NumberMode, NumberOptions), MergedNumberExtractor> Instances =
             new ConcurrentDictionary<(NumberMode, NumberOptions), MergedNumberExtractor>();
 
-        public MergedNumberExtractor(BaseNumberOptionsConfiguration config)
+        public MergedNumberExtractor(NumberMode mode, NumberOptions options)
         {
-            NumberExtractor = English.NumberExtractor.GetInstance(config);
+            NumberExtractor = Hindi.NumberExtractor.GetInstance(mode, options);
             RoundNumberIntegerRegexWithLocks = new Regex(NumbersDefinitions.RoundNumberIntegerRegexWithLocks, RegexFlags);
             ConnectorRegex = new Regex(NumbersDefinitions.ConnectorRegex, RegexFlags);
         }
@@ -28,18 +27,18 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         public sealed override Regex ConnectorRegex { get; set; }
 
-        public static MergedNumberExtractor GetInstance(BaseNumberOptionsConfiguration config)
+        public static MergedNumberExtractor GetInstance(
+            NumberMode mode = NumberMode.Default,
+            NumberOptions options = NumberOptions.None)
         {
-
-            var extractorKey = (config.Mode, config.Options);
-
-            if (!Instances.ContainsKey(extractorKey))
+            var cacheKey = (mode, options);
+            if (!Instances.ContainsKey(cacheKey))
             {
-                var instance = new MergedNumberExtractor(config);
-                Instances.TryAdd(extractorKey, instance);
+                var instance = new MergedNumberExtractor(mode, options);
+                Instances.TryAdd(cacheKey, instance);
             }
 
-            return Instances[extractorKey];
+            return Instances[cacheKey];
         }
     }
 }

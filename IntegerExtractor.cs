@@ -6,29 +6,23 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
-using Microsoft.Recognizers.Definitions.English;
+using Microsoft.Recognizers.Definitions.Hindi;
 
-namespace Microsoft.Recognizers.Text.Number.English
+namespace Microsoft.Recognizers.Text.Number.Hindi
 {
-    public class IntegerExtractor : CachedNumberExtractor
+    public class IntegerExtractor : BaseNumberExtractor
     {
         private const RegexOptions RegexFlags = RegexOptions.Singleline | RegexOptions.ExplicitCapture;
 
         private static readonly ConcurrentDictionary<string, IntegerExtractor> Instances =
             new ConcurrentDictionary<string, IntegerExtractor>();
 
-        private readonly string keyPrefix;
-
-        private IntegerExtractor(BaseNumberOptionsConfiguration config)
-            : base(config.Options)
+        private IntegerExtractor(string placeholder = NumbersDefinitions.PlaceHolderDefault)
         {
-
-            keyPrefix = string.Intern(ExtractType + "_" + config.Options + "_" + config.Placeholder + "_" + config.Culture);
-
             var regexes = new Dictionary<Regex, TypeTag>
             {
                 {
-                    new Regex(NumbersDefinitions.NumbersWithPlaceHolder(config.Placeholder), RegexFlags),
+                    new Regex(NumbersDefinitions.NumbersWithPlaceHolder(placeholder), RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX)
                 },
                 {
@@ -49,23 +43,35 @@ namespace Microsoft.Recognizers.Text.Number.English
                 },
                 {
                     new Regex(NumbersDefinitions.AllIntRegexWithLocks, RegexFlags),
-                    RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.ENGLISH)
+                    RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.HINDI)
                 },
                 {
                     new Regex(NumbersDefinitions.AllIntRegexWithDozenSuffixLocks, RegexFlags),
-                    RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.ENGLISH)
+                    RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.HINDI)
                 },
                 {
-                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumComma, config.Placeholder, RegexFlags),
+                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumComma, placeholder, RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX)
                 },
                 {
-                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumBlank, config.Placeholder, RegexFlags),
+                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumBlank, placeholder, RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX)
                 },
                 {
-                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumNoBreakSpace, config.Placeholder, RegexFlags),
+                    GenerateLongFormatNumberRegexes(LongFormatType.IntegerNumNoBreakSpace, placeholder, RegexFlags),
                     RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.NUMBER_SUFFIX)
+                },
+                {
+                    new Regex(NumbersDefinitions.NegativeHinglishRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.HINDI)
+                },
+                {
+                    new Regex(NumbersDefinitions.CompoundEnglishNumberRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.HINDI)
+                },
+                {
+                    new Regex(NumbersDefinitions.DecimalUnitsWithRoundNumberRegex, RegexFlags),
+                    RegexTagGenerator.GenerateRegexTag(Constants.INTEGER_PREFIX, Constants.HINDI)
                 },
             };
 
@@ -76,24 +82,15 @@ namespace Microsoft.Recognizers.Text.Number.English
 
         protected sealed override string ExtractType { get; } = Constants.SYS_NUM_INTEGER; // "Integer";
 
-        public static IntegerExtractor GetInstance(BaseNumberOptionsConfiguration config)
+        public static IntegerExtractor GetInstance(string placeholder = NumbersDefinitions.PlaceHolderDefault)
         {
-
-            var extractorKey = config.Placeholder;
-
-            if (!Instances.ContainsKey(extractorKey))
+            if (!Instances.ContainsKey(placeholder))
             {
-                var instance = new IntegerExtractor(config);
-                Instances.TryAdd(extractorKey, instance);
+                var instance = new IntegerExtractor(placeholder);
+                Instances.TryAdd(placeholder, instance);
             }
 
-            return Instances[extractorKey];
+            return Instances[placeholder];
         }
-
-        protected override object GenKey(string input)
-        {
-            return (keyPrefix, input);
-        }
-
     }
 }
