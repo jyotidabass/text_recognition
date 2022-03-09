@@ -1,0 +1,79 @@
+# AppVeyor build configuration for JavaScript project
+version: 1.0.{build}
+
+image: Visual Studio 2019
+environment:
+  nodejs_version: "14.17.6"
+  PYTHON: "C:\\Python36-x64"
+  JAVA_HOME: "C:\\Program Files\\Java\\jdk11"
+platform: Any CPU
+configuration: Release
+
+init:
+- tzutil /s "UTC"
+
+# Install Node 8
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - cmd: SET PATH=%PYTHON%;%PYTHON%\\Scripts;%JAVA_HOME%\bin;%PATH%
+
+# Projects
+clone_depth: 1
+branches:
+  only:
+  - master
+  - /[Ff]eature\/.+/
+  - /[Ff]ix\/.+/
+  - /[Hh]otfix\/.+/
+
+build:
+  parallel: true
+
+build_script:
+- cmd: >-
+    CALL wmic os get caption, version, osarchitecture
+    
+    CALL node -v
+    
+    CALL npm -v
+    
+    CALL node -e "console.log(process.versions.v8);"
+    
+    cd .NET\
+    
+    build.ci.cmd
+    
+    cd ..\JavaScript\
+    
+    build.ci.cmd
+    
+    cd ..\Python\
+    
+    build.ci.cmd
+    
+    cd ..\java\
+    
+    build.ci.cmd
+    
+test:
+          
+test_script:
+    cd ..\.NET\
+    
+    tests.ci.cmd
+
+    cd ..\JavaScript\
+    
+    tests.ci.cmd
+    
+    cd ..\java\
+    
+    tests.ci.cmd
+
+artifacts:
+    - path: '**\*Microsoft.Recognizers*.nupkg'
+      name: NuGets
+    - path: 'Java\libraries\**\recognizers-text*.jar'
+      name: JARs
+    - path: 'Python\libraries\dist\*'
+      name: Wheels
