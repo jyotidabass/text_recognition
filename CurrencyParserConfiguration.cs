@@ -3,22 +3,22 @@
 
 using System.Collections.Immutable;
 using System.Globalization;
-using Microsoft.Recognizers.Definitions.Chinese;
+using Microsoft.Recognizers.Definitions.German;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Chinese
+namespace Microsoft.Recognizers.Text.NumberWithUnit.German
 {
-    public class CurrencyParserConfiguration : ChineseNumberWithUnitParserConfiguration
+    public class CurrencyParserConfiguration : GermanNumberWithUnitParserConfiguration
     {
         public CurrencyParserConfiguration()
-            : this(new CultureInfo(Culture.Chinese))
+            : this(new CultureInfo(Culture.German))
         {
         }
 
         public CurrencyParserConfiguration(CultureInfo ci)
             : base(ci)
         {
-            this.BindDictionary(NumbersWithUnitDefinitions.CurrencyPrefixList);
-            this.BindDictionary(NumbersWithUnitDefinitions.CurrencySuffixList);
+            this.BindDictionary(CurrencyExtractorConfiguration.CurrencySuffixList);
+            this.BindDictionary(CurrencyExtractorConfiguration.CurrencyPrefixList);
             this.CurrencyNameToIsoCodeMap = NumbersWithUnitDefinitions.CurrencyNameToIsoCodeMap.ToImmutableDictionary();
             this.CurrencyFractionCodeList = NumbersWithUnitDefinitions.FractionalUnitNameToCodeMap.ToImmutableDictionary();
         }

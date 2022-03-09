@@ -5,17 +5,17 @@ using System.Globalization;
 
 namespace Microsoft.Recognizers.Text.NumberWithUnit.German
 {
-    public class DimensionParserConfiguration : GermanNumberWithUnitParserConfiguration
+    public class LengthParserConfiguration : GermanNumberWithUnitParserConfiguration
     {
-        public DimensionParserConfiguration()
+        public LengthParserConfiguration()
             : this(new CultureInfo(Culture.German))
         {
         }
 
-        public DimensionParserConfiguration(CultureInfo ci)
+        public LengthParserConfiguration(CultureInfo ci)
             : base(ci)
         {
-            this.BindDictionary(DimensionExtractorConfiguration.DimensionSuffixList);
+            this.BindDictionary(LengthExtractorConfiguration.LengthSuffixList);
         }
     }
 }

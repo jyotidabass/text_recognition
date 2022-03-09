@@ -3,22 +3,19 @@
 
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.Chinese;
-
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Chinese
+namespace Microsoft.Recognizers.Text.NumberWithUnit.German
 {
-    public class TemperatureParserConfiguration : ChineseNumberWithUnitParserConfiguration
+    public class TemperatureParserConfiguration : GermanNumberWithUnitParserConfiguration
     {
         public TemperatureParserConfiguration()
-            : this(new CultureInfo(Culture.Chinese))
+            : this(new CultureInfo(Culture.German))
         {
         }
 
         public TemperatureParserConfiguration(CultureInfo ci)
             : base(ci)
         {
-            this.BindDictionary(NumbersWithUnitDefinitions.TemperaturePrefixList);
-            this.BindDictionary(NumbersWithUnitDefinitions.TemperatureSuffixList);
+            this.BindDictionary(TemperatureExtractorConfiguration.TemperatureSuffixList);
         }
     }
 }
