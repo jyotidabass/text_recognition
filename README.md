@@ -1,203 +1,112 @@
-# Microsoft.Recognizers.Text for .NET
+# BotBuilderRecognizerBot
+This sample demonstrates how the Recognizers can be used with a BotBuilder Bot to parse user input. The bot provides a basic experience for ordering roses, it starts by asking the amount of roses and then asks for a delivery date and time.
+This bot has been created using [Bot Framework][1], it shows how to:
+- Implement a multi-turn conversation using Dialogs
+- Prompt for and validate requests for information from the user
 
-## Getting Started
+This sample requires prerequisites in order to run.
+- [Required Prerequisites][41]
 
-Recognizer's are organized into groups and designed to be used in C#, Node.js, Python and Java to help you build great applications! To use the samples clone our GitHub repository using Git.
+# To try this sample
+- In a terminal, navigate to `<your_project_folder>/BotBuilder`
+    ```bash
+    # change into project folder
+	cd <your_project_folder>/BotBuilder
+    ```
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-    git clone https://github.com/Microsoft/Recognizers-Text.git
-    cd Recognizers-Text
+	A) From a terminal
+	```bash
+	# run the bot
+	dotnet run
+	```
 
-## Setup
+	B) Or from Visual Studio
+	- Launch Visual Studio
+	- File -> Open -> Project/Solution
+	- Navigate to `<your_project_folder>/BotBuilder` folder
+	- Select `BotBuilderRecognizerBot.csproj` file
+	- Press `F5` to run the project
 
-You can choose between build the solution manually or through an automatized build.cmd file (or build.sh file on MacOS and Linux).
+# Testing the bot using Bot Framework Emulator **v4**
+[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-### Manual Build
-* Open `Microsoft.Recognizers.Text.sln` and build solution.
-* Launch all available tests by context menu _Test/Run/All Tests_.
+- Install the Bot Framework Emulator version 4.2.0 or greater from [here][6]
 
-### Automatized Build
-* Launch `Build.cmd` file.
+## Connect to the bot using Bot Framework Emulator **v4**
+- Launch Bot Framework Emulator
+- File -> Open Bot Configuration
+- Navigate to `<your_project_folder>/BotBuilder` folder
+- Select `BotBuilderRecognizerBot.bot` file
 
-### Installation
+# Deploy the bot to Azure
+## Prerequisites
+- [Azure Deployment Prerequisites][41]
 
-Install Recognizer's by launching the following commands:
+## Provision a Bot with Azure Bot Service
+After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
 
-* Get core Recognizer's features:
-`nuget install Microsoft.Recognizers.Text`
-
-* Get numbers Recognizer's features:
-`nuget install Microsoft.Recognizers.Text.Number`
-
-* Get numbers with units Recognizer's features:
-`nuget install Microsoft.Recognizers.Text.NumberWithUnit`
-
-* Get datetime Recognizer's features:
-`nuget install Microsoft.Recognizers.Text.DateTime`
-
-* Get sequence Recognizer's features:
-`nuget install Microsoft.Recognizers.Text.Sequence`
-
-* Get choice Recognizer's features:
-`nuget install Microsoft.Recognizers.Text.Choice`
-
-## API Documentation
-
-Resolution of values can be achieved in two ways, using the Recognizer's models or using the helper methods:
-
-### Recognizer's Models
-
-This is the preferred way if you need to parse multiple inputs based on the same context (e.g.: language and options):
-
-```C#
-var recognizer = new NumberRecognizer(Culture.English);
-var model = recognizer.GetNumberModel();
-var result = model.Parse("Twelve");
+```bash
+# login to Azure
+az login
 ```
 
-Or, for less verbosity, you use the helper methods:
-
-`var result = NumberRecognizer.RecognizeNumber("Twelve", Culture.English);`
-
-Internally, both methods will cache the instance models to avoid extra costs.
-
-### Microsoft.Recognizers.Text.Number
-
-* **Numbers**
-
-    This recognizer will find any number from the input. E.g "I have two apples" will return "2".
-
-    `NumberRecognizer.RecognizeNumber("I have two apples", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `var model = new NumberRecognizer(Culture.English).GetNumberModel()`
-
-* **Ordinal Numbers**
-
-    This recognizer will find any ordinal number. E.g "eleventh" will return "11".
-
-    `NumberRecognizer.RecognizeOrdinal("eleventh", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `var model = new NumberRecognizer(Culture.English).GetOrdinalModel()`
-
-
-* **Percentages**
-
-    This recognizer will find any number presented as percentage. E.g "one hundred percents" will return "100%".
-
-    `NumberRecognizer.RecognizePercentage("one hundred percents", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `var model = new NumberRecognizer(Culture.English).GetPercentageModel()`
-
-
-### Microsoft.Recognizers.Text.NumberWithUnit
-
-* **Ages**
-
-    This recognizer will find any age number presented. E.g "After ninety five years of age, perspectives change" will return "95 Year".
-
-    `NumberWithUnitRecognizer.RecognizeAge("After ninety five years of age, perspectives change", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `var model = new NumberWithUnitRecognizer(Culture.English).GetAgeModel()`
-
-
-* **Currencies**
-
-    This recognizer will find any currency presented. E.g "Interest expense in the 1988 third quarter was $ 75.3 million" will return "75300000 Dollar".
-
-    `NumberWithUnitRecognizer.RecognizeCurrency("Interest expense in the 1988 third quarter was $ 75.3 million", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `var model = new NumberWithUnitRecognizer(Culture.English).GetCurrencyModel()`
-
-
-* **Dimensions**
-
-    This recognizer will find any dimension presented. E.g "The six-mile trip to my airport hotel that had taken 20 minutes earlier in the day took more than three hours." will return "6 Mile".
-
-    `NumberWithUnitRecognizer.RecognizeDimension("The six-mile trip to my airport hotel that had taken 20 minutes earlier in the day took more than three hours.", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `new NumberWithUnitRecognizer(Culture.English).GetDimensionModel()`
-
-
-* **Temperatures**
-
-    This recognizer will find any temperature presented. E.g "Set the temperature to 30 degrees celsius" will return "30 C".
-
-    `NumberWithUnitRecognizer.RecognizeTemperature("Set the temperature to 30 degrees celsius", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `new NumberWithUnitRecognizer(Culture.English).GetTemperatureModel()`
-
-### Microsoft.Recognizers.Text.DateTime
-
-* **Date, time, duration and date/time ranges**
-
-    This model will find any date, time, duration and date/time ranges, even if its write in coloquial language. E.g. "I'll go back 8pm today" will return "2017-10-04 20:00:00".
-
-    `DateTimeRecognizer.RecognizeDateTime("I'll go back 8pm today", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `new DateTimeRecognizer(Culture.English).GetDateTimeModel()`
-
-
-### Microsoft.Recognizers.Text.Sequence
-
-* **Phone Numbers**
-
-    This model will find any patter of symbols detected as a phone number, even if its write in coloquial language. E.g. "My phone number is 1 (877) 609-2233." will return "1 (877) 609-2233".
-
-    `SequenceRecognizer.RecognizePhoneNumber("My phone number is 1 (877) 609-2233.", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `new SequenceRecognizer(Culture.English).GetPhoneNumberModel()`
-
-    * **IP Addresses**
-
-    This model will find any Ipv4/Ipv6 presented. 
-    E.g. "My Ip is 8.8.8.8".
-
-    `SequenceRecognizer.RecognizeIpAddress("My Ip is 8.8.8.8", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `new SequenceRecognizer(Culture.English).GetIpAddressModel()`
-
-### Microsoft.Recognizers.Text.Choice
-
-* **Booleans**
-
-    This recognizer will find any boolean value, even if its write with emoji. 
-    E.g. _"👌 It's ok"_ will return `True`.
-
-    `ChoiceRecognizer.RecognizeBoolean("👌 It's ok", Culture.English)`
-
-    Or you can obtain a model instance using:
-
-    `new ChoiceRecognizer(Culture.English).GetBooleanModel()`
-
-
-## Samples
-
-[Start using recognizers!](/.NET/Samples)
-
-## Integration tips
-
-The recognizers were designed to disjoint language's logic from the recognizer's core in order to grow without the obligation of change the supported platforms.
-
-To achieve this, the recognizers contains the following folders:
-
-* [Specs](/Specs) - Contains all the necessary tests that should be run on any improvements to the recognizers. It's divided by recognizer and supported language.
-* [Patterns](/Patterns)  - Contains all the regular expresions that fulfill the recognizers logic. It's divided by supported language.
+```bash
+# set you Azure subscription
+az account set --subscription "<azure-subscription>"
+```
+
+```bash
+# provision Azure Bot Services resources to host your bot
+msbot clone services --name "BotBuilder" --code-dir "." --location westus --sdkLanguage "Csharp" --folder deploymentScripts/msbotClone --verbose
+```
+
+### Publishing Changes to Azure Bot Service
+As you make changes to your bot running locally, and want to deploy those change to Azure Bot Service, you can _publish_ those change using either `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing
+
+```bash
+# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
+./publish
+```
+
+### Getting Additional Help Deploying to Azure
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
+
+# Further reading
+- [Bot Framework Documentation][20]
+- [Bot Basics][32]
+- [Prompt types][23]
+- [Waterfall dialogs][24]
+- [Ask the user questions][26]
+- [Activity processing][25]
+- [Azure Bot Service Introduction][21]
+- [Azure Bot Service Documentation][22]
+- [.NET Core CLI tools][23]
+- [Azure CLI][7]
+- [msbot CLI][9]
+- [Azure Portal][10]
+- [Language Understanding using LUIS][11]
+- [Channels and Bot Connector Service][27]
+
+[1]: https://dev.botframework.com
+[4]: https://dotnet.microsoft.com/download
+[5]: https://github.com/microsoft/botframework-emulator
+[6]: https://github.com/Microsoft/BotFramework-Emulator/releases
+[7]: https://docs.microsoft.com/cli/azure/?view=azure-cli-latest
+[8]: https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest
+[9]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
+[10]: https://portal.azure.com
+[11]: https://www.luis.ai
+[20]: https://docs.botframework.com
+[21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
+[22]: https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0
+[23]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0
+[24]: https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/waterfalldialog
+[25]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0
+[26]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-waterfall?view=azure-bot-service-4.0
+[27]: https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0
+[30]: https://www.npmjs.com/package/restify
+[31]: https://www.npmjs.com/package/dotenv
+[32]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
+[40]: https://aka.ms/azuredeployment
+[41]: ./PREREQUISITES.md
