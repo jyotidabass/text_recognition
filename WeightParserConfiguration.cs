@@ -3,17 +3,17 @@
 
 using System.Globalization;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.German
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Portuguese
 {
-    public class WeightParserConfiguration : GermanNumberWithUnitParserConfiguration
+    public class WeightParserConfiguration : PortugueseNumberWithUnitParserConfiguration
     {
         public WeightParserConfiguration()
-            : this(new CultureInfo(Culture.German))
+               : this(new CultureInfo(Culture.Portuguese))
         {
         }
 
         public WeightParserConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
             this.BindDictionary(WeightExtractorConfiguration.WeightSuffixList);
         }

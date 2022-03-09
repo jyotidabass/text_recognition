@@ -3,17 +3,17 @@
 
 using System.Globalization;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.German
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Portuguese
 {
-    public class SpeedParserConfiguration : GermanNumberWithUnitParserConfiguration
+    public class SpeedParserConfiguration : PortugueseNumberWithUnitParserConfiguration
     {
         public SpeedParserConfiguration()
-            : this(new CultureInfo(Culture.German))
+               : this(new CultureInfo(Culture.Portuguese))
         {
         }
 
         public SpeedParserConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
             this.BindDictionary(SpeedExtractorConfiguration.SpeedSuffixList);
         }

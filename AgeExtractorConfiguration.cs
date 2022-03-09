@@ -4,17 +4,18 @@
 using System.Collections.Immutable;
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.Hindi;
+using Microsoft.Recognizers.Definitions.Spanish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class AgeExtractorConfiguration : HindiNumberWithUnitExtractorConfiguration
+    public class AgeExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
     {
-        public static readonly ImmutableDictionary<string, string> AgeSuffixList =
-            NumbersWithUnitDefinitions.AgeSuffixList.ToImmutableDictionary();
+        public static readonly ImmutableDictionary<string, string> AgeSuffixList = NumbersWithUnitDefinitions.AgeSuffixList.ToImmutableDictionary();
+
+        public static readonly ImmutableList<string> AmbiguousAgeUnitList = NumbersWithUnitDefinitions.AmbiguousAgeUnitList.ToImmutableList();
 
         public AgeExtractorConfiguration()
-               : this(new CultureInfo(Culture.Hindi))
+               : this(new CultureInfo(Culture.Spanish))
         {
         }
 
@@ -27,7 +28,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
 
         public override ImmutableDictionary<string, string> PrefixList => null;
 
-        public override ImmutableList<string> AmbiguousUnitList => null;
+        public override ImmutableList<string> AmbiguousUnitList => AmbiguousAgeUnitList;
 
         public override string ExtractType => Constants.SYS_UNIT_AGE;
     }

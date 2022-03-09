@@ -4,21 +4,21 @@
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Recognizers.Definitions.Spanish;
 
-using Microsoft.Recognizers.Definitions.Hindi;
-
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class DimensionExtractorConfiguration : HindiNumberWithUnitExtractorConfiguration
+    public class DimensionExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
     {
         public static readonly ImmutableDictionary<string, string> DimensionSuffixList =
             NumbersWithUnitDefinitions.InformationSuffixList
-            .Concat(AreaExtractorConfiguration.AreaSuffixList)
-            .Concat(LengthExtractorConfiguration.LengthSuffixList)
-            .Concat(SpeedExtractorConfiguration.SpeedSuffixList)
-            .Concat(VolumeExtractorConfiguration.VolumeSuffixList)
-            .Concat(WeightExtractorConfiguration.WeightSuffixList)
-            .ToImmutableDictionary(x => x.Key, x => x.Value);
+                .Concat(AreaExtractorConfiguration.AreaSuffixList)
+                .Concat(LengthExtractorConfiguration.LengthSuffixList)
+                .Concat(SpeedExtractorConfiguration.SpeedSuffixList)
+                .Concat(VolumeExtractorConfiguration.VolumeSuffixList)
+                .Concat(WeightExtractorConfiguration.WeightSuffixList)
+                .Concat(AngleExtractorConfiguration.AngleSuffixList)
+                .ToImmutableDictionary(x => x.Key, x => x.Value);
 
         public static readonly ImmutableDictionary<string, string> DimensionTypeList =
             NumbersWithUnitDefinitions.InformationSuffixList.ToDictionary(x => x.Key, x => Constants.INFORMATION)
@@ -27,18 +27,25 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
             .Concat(SpeedExtractorConfiguration.SpeedSuffixList.ToDictionary(x => x.Key, x => Constants.SPEED))
             .Concat(VolumeExtractorConfiguration.VolumeSuffixList.ToDictionary(x => x.Key, x => Constants.VOLUME))
             .Concat(WeightExtractorConfiguration.WeightSuffixList.ToDictionary(x => x.Key, x => Constants.WEIGHT))
+            .Concat(AngleExtractorConfiguration.AngleSuffixList.ToDictionary(x => x.Key, x => Constants.ANGLE))
             .ToImmutableDictionary(x => x.Key, x => x.Value);
 
         private static readonly ImmutableList<string> AmbiguousValues =
-            NumbersWithUnitDefinitions.AmbiguousDimensionUnitList.ToImmutableList();
+            NumbersWithUnitDefinitions.AmbiguousDimensionUnitList
+            .Concat(LengthExtractorConfiguration.AmbiguousValues)
+            .Concat(AreaExtractorConfiguration.AmbiguousValues)
+            .Concat(SpeedExtractorConfiguration.AmbiguousValues)
+            .Concat(AngleExtractorConfiguration.AmbiguousUnits)
+            .Distinct()
+            .ToImmutableList();
 
         public DimensionExtractorConfiguration()
-            : base(new CultureInfo(Culture.Hindi))
+               : base(new CultureInfo(Culture.Spanish))
         {
         }
 
         public DimensionExtractorConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
         }
 

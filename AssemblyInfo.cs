@@ -1,14 +1,17 @@
-﻿using System.Reflection;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Recognizers.Text.Sequence")]
+[assembly: AssemblyTitle("Microsoft.Recognizers.Text.NumberWithUnit")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Microsoft.Recognizers.Text.Sequence")]
+[assembly: AssemblyProduct("Microsoft.Recognizers.Text.NumberWithUnit")]
 [assembly: AssemblyCopyright("Copyright © 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +22,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("59755149-E656-4EF7-87A5-76EEE3FD5144")]
+[assembly: Guid("E9BE4F64-9CC5-433C-90CC-A379A732E5E8")]
 
 // Version information for an assembly consists of the following four values:
 //

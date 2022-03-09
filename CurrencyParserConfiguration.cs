@@ -3,19 +3,19 @@
 
 using System.Collections.Immutable;
 using System.Globalization;
-using Microsoft.Recognizers.Definitions.German;
+using Microsoft.Recognizers.Definitions.Spanish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.German
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class CurrencyParserConfiguration : GermanNumberWithUnitParserConfiguration
+    public class CurrencyParserConfiguration : SpanishNumberWithUnitParserConfiguration
     {
         public CurrencyParserConfiguration()
-            : this(new CultureInfo(Culture.German))
+               : this(new CultureInfo(Culture.Spanish))
         {
         }
 
         public CurrencyParserConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
             this.BindDictionary(CurrencyExtractorConfiguration.CurrencySuffixList);
             this.BindDictionary(CurrencyExtractorConfiguration.CurrencyPrefixList);

@@ -1,23 +1,24 @@
-﻿using System.Collections.Immutable;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Immutable;
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.German;
+using Microsoft.Recognizers.Definitions.Spanish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.German
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class VolumeExtractorConfiguration : GermanNumberWithUnitExtractorConfiguration
+    public class VolumeExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
     {
         public static readonly ImmutableDictionary<string, string> VolumeSuffixList = NumbersWithUnitDefinitions.VolumeSuffixList.ToImmutableDictionary();
 
-        public static readonly ImmutableList<string> AmbiguousValues = NumbersWithUnitDefinitions.AmbiguousVolumeUnitList.ToImmutableList();
-
         public VolumeExtractorConfiguration()
-            : this(new CultureInfo(Culture.German))
+               : this(new CultureInfo(Culture.Spanish))
         {
         }
 
         public VolumeExtractorConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
         }
 
@@ -25,7 +26,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.German
 
         public override ImmutableDictionary<string, string> PrefixList => null;
 
-        public override ImmutableList<string> AmbiguousUnitList => AmbiguousValues;
+        public override ImmutableList<string> AmbiguousUnitList => null;
 
         public override string ExtractType => Constants.SYS_UNIT_VOLUME;
     }

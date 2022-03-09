@@ -3,17 +3,17 @@
 
 using System.Globalization;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.German
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Portuguese
 {
-    public class VolumeParserConfiguration : GermanNumberWithUnitParserConfiguration
+    public class VolumeParserConfiguration : PortugueseNumberWithUnitParserConfiguration
     {
         public VolumeParserConfiguration()
-            : this(new CultureInfo(Culture.German))
+               : this(new CultureInfo(Culture.Portuguese))
         {
         }
 
         public VolumeParserConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
             this.BindDictionary(VolumeExtractorConfiguration.VolumeSuffixList);
         }

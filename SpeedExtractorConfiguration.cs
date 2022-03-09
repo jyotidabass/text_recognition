@@ -4,17 +4,18 @@
 using System.Collections.Immutable;
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.Hindi;
+using Microsoft.Recognizers.Definitions.Spanish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class SpeedExtractorConfiguration : HindiNumberWithUnitExtractorConfiguration
+    public class SpeedExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
     {
-        public static readonly ImmutableDictionary<string, string> SpeedSuffixList =
-            NumbersWithUnitDefinitions.SpeedSuffixList.ToImmutableDictionary();
+        public static readonly ImmutableDictionary<string, string> SpeedSuffixList = NumbersWithUnitDefinitions.SpeedSuffixList.ToImmutableDictionary();
+
+        public static readonly ImmutableList<string> AmbiguousValues = NumbersWithUnitDefinitions.AmbiguousSpeedUnitList.ToImmutableList();
 
         public SpeedExtractorConfiguration()
-               : base(new CultureInfo(Culture.Hindi))
+               : base(new CultureInfo(Culture.Spanish))
         {
         }
 
@@ -27,7 +28,7 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
 
         public override ImmutableDictionary<string, string> PrefixList => null;
 
-        public override ImmutableList<string> AmbiguousUnitList => null;
+        public override ImmutableList<string> AmbiguousUnitList => AmbiguousValues;
 
         public override string ExtractType => Constants.SYS_UNIT_SPEED;
     }

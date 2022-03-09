@@ -3,17 +3,17 @@
 
 using System.Globalization;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.German
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Portuguese
 {
-    public class TemperatureParserConfiguration : GermanNumberWithUnitParserConfiguration
+    public class TemperatureParserConfiguration : PortugueseNumberWithUnitParserConfiguration
     {
         public TemperatureParserConfiguration()
-            : this(new CultureInfo(Culture.German))
+               : this(new CultureInfo(Culture.Portuguese))
         {
         }
 
         public TemperatureParserConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
             this.BindDictionary(TemperatureExtractorConfiguration.TemperatureSuffixList);
         }

@@ -3,17 +3,17 @@
 
 using System.Globalization;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.German
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class LengthParserConfiguration : GermanNumberWithUnitParserConfiguration
+    public class LengthParserConfiguration : SpanishNumberWithUnitParserConfiguration
     {
         public LengthParserConfiguration()
-            : this(new CultureInfo(Culture.German))
+               : this(new CultureInfo(Culture.Spanish))
         {
         }
 
         public LengthParserConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
             this.BindDictionary(LengthExtractorConfiguration.LengthSuffixList);
         }

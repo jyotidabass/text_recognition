@@ -3,17 +3,17 @@
 
 using System.Globalization;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.German
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class DimensionParserConfiguration : GermanNumberWithUnitParserConfiguration
+    public class DimensionParserConfiguration : SpanishNumberWithUnitParserConfiguration
     {
         public DimensionParserConfiguration()
-            : this(new CultureInfo(Culture.German))
+               : this(new CultureInfo(Culture.Spanish))
         {
         }
 
         public DimensionParserConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
             this.BindDictionary(DimensionExtractorConfiguration.DimensionSuffixList);
         }

@@ -4,20 +4,18 @@
 using System.Collections.Immutable;
 using System.Globalization;
 
-using Microsoft.Recognizers.Definitions.Hindi;
+using Microsoft.Recognizers.Definitions.Spanish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class LengthExtractorConfiguration : HindiNumberWithUnitExtractorConfiguration
+    public class LengthExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
     {
-        public static readonly ImmutableDictionary<string, string> LengthSuffixList =
-            NumbersWithUnitDefinitions.LengthSuffixList.ToImmutableDictionary();
+        public static readonly ImmutableDictionary<string, string> LengthSuffixList = NumbersWithUnitDefinitions.LengthSuffixList.ToImmutableDictionary();
 
-        private static readonly ImmutableList<string> AmbiguousValues =
-            NumbersWithUnitDefinitions.AmbiguousLengthUnitList.ToImmutableList();
+        public static readonly ImmutableList<string> AmbiguousValues = NumbersWithUnitDefinitions.AmbiguousLengthUnitList.ToImmutableList();
 
         public LengthExtractorConfiguration()
-               : base(new CultureInfo(Culture.Hindi))
+               : base(new CultureInfo(Culture.Spanish))
         {
         }
 

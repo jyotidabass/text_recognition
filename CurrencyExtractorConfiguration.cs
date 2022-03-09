@@ -7,14 +7,13 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 
-using Microsoft.Recognizers.Definitions.Hindi;
+using Microsoft.Recognizers.Definitions.Spanish;
 
-namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
+namespace Microsoft.Recognizers.Text.NumberWithUnit.Spanish
 {
-    public class CurrencyExtractorConfiguration : HindiNumberWithUnitExtractorConfiguration
+    public class CurrencyExtractorConfiguration : SpanishNumberWithUnitExtractorConfiguration
     {
-        public static readonly ImmutableDictionary<string, string> CurrencySuffixList =
-            NumbersWithUnitDefinitions.CurrencySuffixList.ToImmutableDictionary();
+        public static readonly ImmutableDictionary<string, string> CurrencySuffixList = NumbersWithUnitDefinitions.CurrencySuffixList.ToImmutableDictionary();
 
         // CurrencyNameToIsoCodeMap dictionary (excluding fake and unofficial Iso codes starting with underscore)
         public static readonly Dictionary<string, string> IsoCodeDict =
@@ -36,19 +35,15 @@ namespace Microsoft.Recognizers.Text.NumberWithUnit.Hindi
 
         public static readonly ImmutableDictionary<string, string> CurrencyPrefixList = CurrencyPrefixDict.ToImmutableDictionary();
 
-        public static readonly ImmutableDictionary<string, string> FractionalUnitNameToCodeMap =
-            NumbersWithUnitDefinitions.FractionalUnitNameToCodeMap.ToImmutableDictionary();
-
-        private static readonly ImmutableList<string> AmbiguousValues =
-            NumbersWithUnitDefinitions.AmbiguousCurrencyUnitList.ToImmutableList();
+        private static readonly ImmutableList<string> AmbiguousValues = NumbersWithUnitDefinitions.AmbiguousCurrencyUnitList.ToImmutableList();
 
         public CurrencyExtractorConfiguration()
-            : this(new CultureInfo(Culture.Hindi))
+               : this(new CultureInfo(Culture.Spanish))
         {
         }
 
         public CurrencyExtractorConfiguration(CultureInfo ci)
-            : base(ci)
+               : base(ci)
         {
         }
 
